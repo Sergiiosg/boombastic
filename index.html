@@ -486,14 +486,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const docRef = doc(db, 'planners', DOC_ID);
 
-// Comprobar contraseña
-const AUTH_KEY = 'boombastic_auth';
-if (localStorage.getItem(AUTH_KEY) === PASSWORD) {
-  showApp();
-} else {
-  showPasswordGate();
-}
-
 function showPasswordGate(){
   const gate = document.getElementById('passwordGate');
   const input = document.getElementById('passwordInput');
@@ -1179,6 +1171,14 @@ renderVoters();
 renderAllDays();
 renderIdentityPill();
 renderTripOverview();
+
+/* Gate de contraseña — al final, cuando ya todo está definido */
+const AUTH_KEY = 'boombastic_auth';
+if (localStorage.getItem(AUTH_KEY) === PASSWORD) {
+  showApp();
+} else {
+  showPasswordGate();
+}
 </script>
 </body>
 </html>

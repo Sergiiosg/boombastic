@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boombastic 2026 · Planificador de Viaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0a1a;
+    --bg-2:#141230;
+    --panel:#1a1738;
+    --panel-2:#221e47;
+    --border:#2e2960;
+    --text:#f2eeff;
+    --muted:#a29cc9;
+    --stage-winamax:#e7443b;
+    --stage-popstar:#f0a020;
+    --stage-perreo:#4ea858;
+    --stage-urban:#b074d8;
+    --accent:#00e5c7;
+    --danger:#ff5673;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.5;min-height:100vh}
+  body{
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(176,116,216,.15) 0, transparent 50%),
+      radial-gradient(ellipse at 80% 30%, rgba(231,68,59,.1) 0, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(0,229,199,.08) 0, transparent 50%),
+      var(--bg);
+    background-attachment:fixed;
+  }
+  .container{max-width:1200px;margin:0 auto;padding:24px 20px 80px}
+  header{margin-bottom:32px;padding:24px 0 8px}
+  .eyebrow{font-size:12px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);line-height:.95;letter-spacing:.02em;background:linear-gradient(90deg,#fff 0%,#b074d8 40%,#00e5c7 80%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
+  .subtitle{color:var(--muted);font-size:15px;max-width:620px}
+  .subtitle strong{color:var(--text)}
+
+  /* Tabs */
+  .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:0}
+  .tab{
+    background:none;border:none;color:var(--muted);
+    padding:12px 18px;cursor:pointer;font-family:inherit;font-size:14px;
+    font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    border-bottom:2px solid transparent;transition:all .2s;
+    position:relative;top:1px;
+  }
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--text);border-bottom-color:var(--accent)}
+  .tab-content{display:none;animation:fadeIn .3s}
+  .tab-content.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  /* Cards */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px}
+  .card h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:.05em;margin-bottom:14px}
+  .card h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.04em;margin-bottom:10px;color:var(--accent)}
+
+  /* Overview grid */
+  .trip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px}
+  .day-pill{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:14px}
+  .day-pill .date{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em}
+  .day-pill .day{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.15em}
+  .day-pill .plan{margin-top:8px;font-size:14px}
+
+  /* Meals */
+  .meal-day{margin-bottom:20px}
+  .meal-day-header{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .meal-day-header .date{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.05em}
+  .meal-day-header .weekday{color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+  .meals-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .meal-slot{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:12px}
+  .meal-slot label{display:block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .meal-slot textarea{
+    width:100%;background:transparent;border:none;color:var(--text);
+    font-family:inherit;font-size:14px;resize:vertical;min-height:52px;outline:none;
+  }
+  .meal-slot textarea::placeholder{color:#5a537f;font-style:italic}
+
+  /* Schedule */
+  .day-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .day-tab{
+    background:var(--panel);border:1px solid var(--border);color:var(--muted);
+    padding:8px 16px;cursor:pointer;font-family:inherit;font-size:13px;
+    font-weight:600;letter-spacing:.05em;text-transform:uppercase;border-radius:8px;
+    transition:all .15s;
+  }
+  .day-tab.active{background:var(--accent);color:#0b0a1a;border-color:var(--accent)}
+  .day-panel{display:none}
+  .day-panel.active{display:block}
+
+  .stage-legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+  .legend-swatch{width:12px;height:12px;border-radius:3px}
+
+  .timetable{
+    display:grid;
+    grid-template-columns:44px repeat(4,1fr);
+    gap:2px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+  }
+  .tt-header{background:var(--panel-2);padding:10px 8px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .tt-stage-w{background:linear-gradient(180deg,var(--stage-winamax),color-mix(in srgb,var(--stage-winamax) 60%,black))!important;color:#fff}
+  .tt-stage-p{background:linear-gradient(180deg,var(--stage-popstar),color-mix(in srgb,var(--stage-popstar) 60%,black))!important;color:#1a0f00}
+  .tt-stage-g{background:linear-gradient(180deg,var(--stage-perreo),color-mix(in srgb,var(--stage-perreo) 60%,black))!important;color:#fff}
+  .tt-stage-u{background:linear-gradient(180deg,var(--stage-urban),color-mix(in srgb,var(--stage-urban) 60%,black))!important;color:#fff}
+  .tt-grid{background:var(--panel);position:relative;min-height:1800px}
+  .tt-time{background:var(--panel);padding:4px 6px;font-size:11px;color:var(--muted);text-align:right;position:relative;font-variant-numeric:tabular-nums}
+  .tt-time span{position:absolute;top:-6px;right:6px;background:var(--panel);padding:0 3px}
+  .artist{
+    position:absolute;left:4px;right:4px;
+    border-radius:6px;padding:6px 8px;
+    cursor:pointer;overflow:hidden;
+    transition:transform .12s, box-shadow .12s;
+    display:flex;flex-direction:column;justify-content:center;
+    border:1px solid rgba(255,255,255,.15);
+  }
+  .artist:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.4);z-index:5}
+  .artist.st-w{background:linear-gradient(135deg,#e7443b,#a02c25);color:#fff}
+  .artist.st-p{background:linear-gradient(135deg,#f0a020,#b06c00);color:#1a0f00}
+  .artist.st-g{background:linear-gradient(135deg,#4ea858,#276b2f);color:#fff}
+  .artist.st-u{background:linear-gradient(135deg,#b074d8,#6d3fa0);color:#fff}
+  .artist .name{font-weight:700;font-size:13px;line-height:1.15}
+  .artist .time{font-size:10px;opacity:.85;margin-top:2px;font-variant-numeric:tabular-nums}
+  .artist .votes{position:absolute;bottom:4px;right:6px;font-size:10px;display:flex;gap:3px}
+
+  /* Voters */
+  .voters-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .voter-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--panel-2);border:1px solid var(--border);
+    padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;
+    cursor:pointer;transition:all .15s;
+  }
+  .voter-chip.active{border-color:var(--accent);background:rgba(0,229,199,.1)}
+  .voter-chip .dot{width:10px;height:10px;border-radius:50%}
+  .voter-chip button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 0 0 4px;line-height:1}
+  .voter-chip button:hover{color:var(--danger)}
+  .add-voter{display:flex;gap:6px}
+  .add-voter input{
+    background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    padding:6px 12px;border-radius:20px;font-family:inherit;font-size:13px;
+    outline:none;width:140px;
+  }
+  .add-voter input:focus{border-color:var(--accent)}
+  .add-voter button{
+    background:var(--accent);border:none;color:#0b0a1a;
+    padding:6px 14px;border-radius:20px;font-family:inherit;font-weight:700;
+    font-size:13px;cursor:pointer;
+  }
+  .add-voter button:hover{opacity:.85}
+
+  /* Voting Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(5,3,20,.75);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.active{display:flex}
+  .modal{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto}
+  .modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;margin-bottom:4px}
+  .modal .meta{color:var(--muted);font-size:13px;margin-bottom:16px}
+  .vote-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)}
+  .vote-row:first-of-type{border-top:none}
+  .vote-row .who{font-weight:600;display:flex;align-items:center;gap:8px}
+  .vote-row .who .dot{width:10px;height:10px;border-radius:50%}
+  .vote-btns{display:flex;gap:4px}
+  .vote-btn{
+    background:var(--panel-2);border:1px solid var(--border);color:var(--muted);
+    padding:6px 10px;border-radius:8px;font-family:inherit;font-size:13px;
+    cursor:pointer;transition:all .12s;
+  }
+  .vote-btn:hover{color:var(--text)}
+  .vote-btn.selected.love{background:rgba(255,86,115,.2);border-color:var(--danger);color:#ff9db0}
+  .vote-btn.selected.like{background:rgba(240,160,32,.2);border-color:var(--stage-popstar);color:#ffcf7a}
+  .vote-btn.selected.pass{background:rgba(90,83,127,.3);border-color:#5a537f;color:var(--muted)}
+  .modal-close{
+    background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    padding:8px 16px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;
+    cursor:pointer;margin-top:16px;width:100%;
+  }
+
+  /* Results */
+  .results-controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .results-controls select{
+    background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    padding:8px 12px;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;
+  }
+  .result-row{
+    display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+    padding:12px;background:var(--panel-2);border:1px solid var(--border);
+    border-radius:10px;margin-bottom:8px;
+  }
+  .result-row.conflict{border-color:var(--danger)}
+  .result-row .stage-tag{
+    padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;
+  }
+  .result-row .info .name{font-weight:700;font-size:15px}
+  .result-row .info .time{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:2px}
+  .result-row .info .conflict-note{font-size:11px;color:var(--danger);margin-top:4px;font-weight:600}
+  .result-row .score{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .result-row .score-num{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.05em;color:var(--accent)}
+  .result-row .voters-mini{display:flex;gap:3px}
+  .voter-dot{width:14px;height:14px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;color:#0b0a1a;font-weight:700;position:relative}
+  .voter-dot.love::after{content:'♥';position:absolute;top:-8px;right:-4px;color:var(--danger);font-size:10px}
+
+  .empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+  .empty-state strong{color:var(--text);display:block;margin-bottom:8px;font-size:16px}
+
+  @media (max-width:640px){
+    .container{padding:16px 12px 60px}
+    .tab{padding:10px 12px;font-size:12px}
+    .artist .name{font-size:11px}
+    .artist .time{font-size:9px}
+    .tt-header{font-size:9px;padding:6px 4px}
+    .timetable{grid-template-columns:36px repeat(4,1fr)}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="eyebrow">Planner · Asturias · 15–19 julio 2026</div>
+    <h1>BOOMBASTIC<br>THE LAST DANCE</h1>
+    <p class="subtitle">Herramienta interna del grupo para cuadrar <strong>comidas</strong>, elegir <strong>artistas</strong> con votación por persona y resolver los <strong>solapes</strong> entre escenarios. Todo se guarda en este dispositivo.</p>
+  </header>
+
+  <nav class="tabs" id="mainTabs">
+    <button class="tab active" data-tab="viaje">El viaje</button>
+    <button class="tab" data-tab="comidas">Comidas</button>
+    <button class="tab" data-tab="horarios">Horarios</button>
+    <button class="tab" data-tab="votacion">Votación</button>
+    <button class="tab" data-tab="coincidencias">Coincidencias</button>
+  </nav>
+
+  <!-- VIAJE -->
+  <section class="tab-content active" id="tab-viaje">
+    <div class="card">
+      <h2>Resumen del viaje</h2>
+      <p style="color:var(--muted);margin-bottom:8px">Del miércoles 15 al domingo 19 de julio de 2026. Festival en Llanera (Asturias), producido por Boombastic Company. Apertura de puertas 17:30. Cierre 06:00.</p>
+      <div class="trip-grid">
+        <div class="day-pill"><div class="date">Mié 15</div><div class="day">Llegada</div><div class="plan">Viaje + cena de bienvenida</div></div>
+        <div class="day-pill"><div class="date">Jue 16</div><div class="day">Día 1 festival</div><div class="plan">Luck Ra · Saiko · Chanel</div></div>
+        <div class="day-pill"><div class="date">Vie 17</div><div class="day">Día 2 festival</div><div class="plan">Maria Becerra · JC Reyes · Lyanno</div></div>
+        <div class="day-pill"><div class="date">Sáb 18</div><div class="day">Día 3 festival</div><div class="plan">Natos y Waor · Kidd Keo · Juicy BAE</div></div>
+        <div class="day-pill"><div class="date">Dom 19</div><div class="day">Vuelta</div><div class="plan">Desayuno + regreso</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cómo usar esto</h3>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Comidas:</strong> escribe qué queréis comer y dónde cada día. Se guarda solo.</p>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Horarios:</strong> el timetable visual con los 4 escenarios en paralelo — se ven los solapes de un vistazo. Haz clic en un artista para votar.</p>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Votación:</strong> añade primero a cada persona del grupo en la pestaña "Votación". Después cada uno marca ❤️ (imprescindible), 👀 (me interesa) o 😐 (paso) en cada artista.</p>
+      <p style="color:var(--muted);font-size:14px"><strong style="color:var(--text)">Coincidencias:</strong> ranking por artista con puntuación del grupo y aviso automático de solapes horarios.</p>
+    </div>
+  </section>
+
+  <!-- COMIDAS -->
+  <section class="tab-content" id="tab-comidas">
+    <div class="card">
+      <h2>Planning de comidas</h2>
+      <p style="color:var(--muted);margin-bottom:20px;font-size:14px">Anotad restaurantes, sitios que os interesan o qué queréis cenar cada día. Se guarda automáticamente.</p>
+      <div id="mealsContainer"></div>
+    </div>
+  </section>
+
+  <!-- HORARIOS -->
+  <section class="tab-content" id="tab-horarios">
+    <div class="card">
+      <h2>Horarios por escenario</h2>
+      <div class="stage-legend">
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--stage-winamax)"></div>Winamax</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--stage-popstar)"></div>Pop Star</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--stage-perreo)"></div>Planeta Perreo</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--stage-urban)"></div>Urban Rave Omoda</div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Toca cualquier artista para votar. Los corazoncitos indican cuántos ❤️ tiene del grupo.</p>
+
+      <div class="day-tabs" id="dayTabs">
+        <button class="day-tab active" data-day="jueves">Jue 16</button>
+        <button class="day-tab" data-day="viernes">Vie 17</button>
+        <button class="day-tab" data-day="sabado">Sáb 18</button>
+      </div>
+
+      <div id="day-jueves" class="day-panel active"></div>
+      <div id="day-viernes" class="day-panel"></div>
+      <div id="day-sabado" class="day-panel"></div>
+    </div>
+  </section>
+
+  <!-- VOTACION -->
+  <section class="tab-content" id="tab-votacion">
+    <div class="card">
+      <h2>Quién vota</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Añadid a cada persona del grupo. Después, en "Horarios", cada uno toca un artista y marca su preferencia.</p>
+      <div class="voters-bar" id="votersBar"></div>
+      <div class="add-voter">
+        <input type="text" id="newVoterName" placeholder="Nombre" maxlength="20">
+        <button id="addVoterBtn">Añadir</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Escala de voto</h3>
+      <p style="color:var(--muted);font-size:14px;line-height:1.8">
+        ❤️ <strong style="color:var(--text)">Imprescindible</strong> — no me lo pierdo (3 puntos)<br>
+        👀 <strong style="color:var(--text)">Me interesa</strong> — si cuadra, sí (1 punto)<br>
+        😐 <strong style="color:var(--text)">Paso</strong> — no me llama (0 puntos)
+      </p>
+    </div>
+  </section>
+
+  <!-- COINCIDENCIAS -->
+  <section class="tab-content" id="tab-coincidencias">
+    <div class="card">
+      <h2>Ranking del grupo</h2>
+      <div class="results-controls">
+        <select id="filterDay">
+          <option value="all">Todos los días</option>
+          <option value="jueves">Jue 16</option>
+          <option value="viernes">Vie 17</option>
+          <option value="sabado">Sáb 18</option>
+        </select>
+        <select id="filterSort">
+          <option value="score">Ordenar por puntuación</option>
+          <option value="time">Ordenar por hora</option>
+        </select>
+      </div>
+      <div id="resultsContainer"></div>
+    </div>
+  </section>
+</div>
+
+<!-- Modal de voto -->
+<div class="modal-overlay" id="voteModal">
+  <div class="modal">
+    <h3 id="modalArtist">Artista</h3>
+    <div class="meta" id="modalMeta">Escenario · Horario</div>
+    <div id="voteRows"></div>
+    <button class="modal-close" id="closeModal">Cerrar</button>
+  </div>
+</div>
+
+<script>
+/* ============ DATOS ============ */
+const SCHEDULE = {
+  jueves: {
+    label: 'Jueves 16 de julio',
+    startMin: 18*60, endMin: 30*60, // 18:00 a 06:00 siguiente día
+    artists: [
+      // Winamax
+      {stage:'w', name:'LUCK RA', start:'22:00', end:'23:00'},
+      {stage:'w', name:'SAIKO', start:'00:00', end:'01:20'},
+      // Pop Star
+      {stage:'p', name:'YAMI SAFDIE', start:'18:10', end:'19:00'},
+      {stage:'p', name:'SOFIA ELLAR', start:'19:50', end:'20:40'},
+      {stage:'p', name:'MARLENA', start:'21:40', end:'22:30'},
+      {stage:'p', name:'MALMÖ 040', start:'23:35', end:'00:35'},
+      {stage:'p', name:'CHANEL', start:'01:30', end:'02:30'},
+      {stage:'p', name:'FUNZO', start:'03:50', end:'04:50'},
+      // Perreo
+      {stage:'g', name:'EASYKID', start:'19:00', end:'19:50'},
+      {stage:'g', name:'LEWIS POTTER', start:'20:40', end:'21:40'},
+      {stage:'g', name:'LUCHO RK', start:'22:40', end:'23:35'},
+      {stage:'g', name:'JOSÉ DE LAS HERAS', start:'00:35', end:'01:25'},
+      {stage:'g', name:'JUAN MAGÁN', start:'02:30', end:'03:50'},
+      {stage:'g', name:'ALVAMA ICE', start:'04:50', end:'06:00'},
+      // Urban
+      {stage:'u', name:'HECKY', start:'18:10', end:'19:00'},
+      {stage:'u', name:'JOHN POLLÓN', start:'19:50', end:'20:40'},
+      {stage:'u', name:'D. VALENTINO', start:'21:40', end:'22:40'},
+      {stage:'u', name:'GRECAS', start:'23:35', end:'00:35'},
+      {stage:'u', name:'ALBANY', start:'01:30', end:'02:30'},
+      {stage:'u', name:'SELECTA', start:'03:50', end:'04:50'},
+    ]
+  },
+  viernes: {
+    label: 'Viernes 17 de julio',
+    startMin: 18*60, endMin: 30*60,
+    artists: [
+      // Winamax
+      {stage:'w', name:'MARIA BECERRA', start:'22:00', end:'23:00'},
+      {stage:'w', name:'JC REYES', start:'00:00', end:'01:00'},
+      // Pop Star
+      {stage:'p', name:'OSLO OVNIES', start:'18:10', end:'18:40'},
+      {stage:'p', name:'IÑIGO QUINTERO', start:'19:30', end:'20:20'},
+      {stage:'p', name:'ELENA ROSE', start:'21:10', end:'22:00'},
+      {stage:'p', name:'MERCEDES CAÑAS', start:'22:50', end:'23:40'},
+      {stage:'p', name:'HEY KID', start:'00:40', end:'01:30'},
+      {stage:'p', name:'BARRY B', start:'02:20', end:'03:10'},
+      // Perreo
+      {stage:'g', name:'DJ 3PAC', start:'18:40', end:'19:30'},
+      {stage:'g', name:'KIDD VODOO', start:'20:20', end:'21:10'},
+      {stage:'g', name:'LA ZOWI', start:'22:00', end:'22:50'},
+      {stage:'g', name:'LA PANTERA', start:'23:40', end:'00:40'},
+      {stage:'g', name:'KAYDY CAIN', start:'01:30', end:'02:20'},
+      {stage:'g', name:'LYANNO', start:'03:10', end:'04:10'},
+      // Urban
+      {stage:'u', name:'TUSSIWARRIORS', start:'18:10', end:'18:40'},
+      {stage:'u', name:'SASKE', start:'19:30', end:'20:20'},
+      {stage:'u', name:'AL SAFIR', start:'21:10', end:'22:00'},
+      {stage:'u', name:'YUNG BEEF', start:'22:50', end:'23:40'},
+      {stage:'u', name:'HARD GZ', start:'00:40', end:'01:30'},
+      {stage:'u', name:'LORNA', start:'02:20', end:'03:10'},
+      {stage:'u', name:'PARKINEOS', start:'04:10', end:'05:10'},
+    ]
+  },
+  sabado: {
+    label: 'Sábado 18 de julio',
+    startMin: 18*60, endMin: 30*60,
+    artists: [
+      // Winamax
+      {stage:'w', name:'HIJOS DE LA RUINA (Natos y Waor + Recycled J)', start:'22:30', end:'01:00'},
+      // Pop Star
+      {stage:'p', name:'MATEO ERAÑA', start:'18:10', end:'19:00'},
+      {stage:'p', name:'VIUS', start:'19:50', end:'20:50'},
+      {stage:'p', name:'INAZIO', start:'21:40', end:'22:30'},
+      {stage:'p', name:'MAFALDA CARDENAL', start:'23:20', end:'00:10'},
+      {stage:'p', name:'SAMURAÏ', start:'01:00', end:'01:50'},
+      {stage:'p', name:'POLE', start:'02:40', end:'03:40'},
+      // Perreo
+      {stage:'g', name:'DOLLAR SELMOUNI', start:'19:00', end:'19:50'},
+      {stage:'g', name:'JUICY BAE', start:'20:50', end:'21:40'},
+      {stage:'g', name:'KATTEYES', start:'22:30', end:'23:20'},
+      {stage:'g', name:'POLIMÁ WESTCOAST', start:'00:10', end:'01:00'},
+      {stage:'g', name:'XIYO Y FERNANDEZZ', start:'01:50', end:'02:40'},
+      {stage:'g', name:'KRISTINA', start:'03:40', end:'04:40'},
+      // Urban
+      {stage:'u', name:'C MARÍ', start:'18:10', end:'19:00'},
+      {stage:'u', name:'RAMMA', start:'19:50', end:'20:50'},
+      {stage:'u', name:'YSY A', start:'21:40', end:'22:30'},
+      {stage:'u', name:'FAENNA', start:'23:20', end:'00:10'},
+      {stage:'u', name:'KIDD KEO', start:'01:00', end:'01:50'},
+      {stage:'u', name:'8BELIAL', start:'02:40', end:'03:40'},
+      {stage:'u', name:'METRIKA DJ SET', start:'04:40', end:'06:00'},
+    ]
+  }
+};
+
+const STAGE_INFO = {
+  w: {name:'Winamax', color:'#e7443b'},
+  p: {name:'Pop Star', color:'#f0a020'},
+  g: {name:'Planeta Perreo', color:'#4ea858'},
+  u: {name:'Urban Rave Omoda', color:'#b074d8'}
+};
+
+const VOTER_COLORS = ['#00e5c7','#ff5673','#f0a020','#b074d8','#4ea858','#5ab8ff','#ff8fd6','#c7ff5a'];
+
+/* ============ ESTADO ============ */
+const STORAGE_KEY = 'boombastic2026';
+let state = loadState();
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  } catch(e){}
+  return {
+    meals: {}, // "2026-07-15_dinner": "..."
+    voters: [], // [{id, name, color}]
+    votes: {} // {artistKey: {voterId: 'love'|'like'|'pass'}}
+  };
+}
+function saveState(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ console.error('No se pudo guardar', e); }
+}
+
+/* ============ UTILS ============ */
+function toMin(hm){
+  const [h,m] = hm.split(':').map(Number);
+  // horas 0-5 son del día siguiente (24-30)
+  return (h < 6 ? h + 24 : h) * 60 + m;
+}
+function artistKey(day, a){ return `${day}::${a.name}::${a.start}`; }
+function overlaps(a, b){
+  const aS = toMin(a.start), aE = toMin(a.end);
+  const bS = toMin(b.start), bE = toMin(b.end);
+  return aS < bE && bS < aE;
+}
+
+/* ============ TABS PRINCIPALES ============ */
+document.querySelectorAll('#mainTabs .tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('#mainTabs .tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('tab-'+t.dataset.tab).classList.add('active');
+    if(t.dataset.tab==='coincidencias') renderResults();
+  });
+});
+
+/* ============ COMIDAS ============ */
+const MEAL_DAYS = [
+  {id:'2026-07-15', date:'15 julio', weekday:'Miércoles', slots:['dinner']},
+  {id:'2026-07-16', date:'16 julio', weekday:'Jueves', slots:['breakfast','lunch','dinner']},
+  {id:'2026-07-17', date:'17 julio', weekday:'Viernes', slots:['breakfast','lunch','dinner']},
+  {id:'2026-07-18', date:'18 julio', weekday:'Sábado', slots:['breakfast','lunch','dinner']},
+  {id:'2026-07-19', date:'19 julio', weekday:'Domingo', slots:['breakfast','lunch']},
+];
+const SLOT_LABEL = {breakfast:'Desayuno', lunch:'Comida', dinner:'Cena'};
+const SLOT_PLACEHOLDER = {
+  breakfast:'Ej: cafetería del hotel, brunch en Oviedo…',
+  lunch:'Ej: sidrería en Llanera, picnic…',
+  dinner:'Ej: antes del festival, sitio con Miguel…'
+};
+
+function renderMeals(){
+  const c = document.getElementById('mealsContainer');
+  c.innerHTML = '';
+  MEAL_DAYS.forEach(day=>{
+    const div = document.createElement('div');
+    div.className = 'meal-day';
+    div.innerHTML = `
+      <div class="meal-day-header">
+        <span class="date">${day.date}</span>
+        <span class="weekday">${day.weekday}</span>
+      </div>
+      <div class="meals-row">
+        ${day.slots.map(slot=>{
+          const key = `${day.id}_${slot}`;
+          const val = state.meals[key] || '';
+          return `
+            <div class="meal-slot">
+              <label>${SLOT_LABEL[slot]}</label>
+              <textarea data-key="${key}" placeholder="${SLOT_PLACEHOLDER[slot]}">${val.replace(/</g,'&lt;')}</textarea>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+    c.appendChild(div);
+  });
+  c.querySelectorAll('textarea').forEach(ta=>{
+    ta.addEventListener('input', ()=>{
+      state.meals[ta.dataset.key] = ta.value;
+      saveState();
+    });
+  });
+}
+
+/* ============ VOTANTES ============ */
+function renderVoters(){
+  const bar = document.getElementById('votersBar');
+  if(state.voters.length===0){
+    bar.innerHTML = '<span style="color:var(--muted);font-size:14px">Aún no habéis añadido a nadie.</span>';
+    return;
+  }
+  bar.innerHTML = state.voters.map(v=>`
+    <span class="voter-chip">
+      <span class="dot" style="background:${v.color}"></span>
+      ${v.name.replace(/</g,'&lt;')}
+      <button data-remove="${v.id}" title="Eliminar">×</button>
+    </span>
+  `).join('');
+  bar.querySelectorAll('[data-remove]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.dataset.remove;
+      state.voters = state.voters.filter(v=>v.id!==id);
+      // Limpiar votos de esa persona
+      Object.keys(state.votes).forEach(k=>{
+        if(state.votes[k][id]) delete state.votes[k][id];
+      });
+      saveState();
+      renderVoters();
+      renderAllDays();
+    });
+  });
+}
+document.getElementById('addVoterBtn').addEventListener('click',addVoter);
+document.getElementById('newVoterName').addEventListener('keydown',e=>{
+  if(e.key==='Enter') addVoter();
+});
+function addVoter(){
+  const input = document.getElementById('newVoterName');
+  const name = input.value.trim();
+  if(!name) return;
+  if(state.voters.length>=8) { alert('Máximo 8 personas'); return; }
+  const color = VOTER_COLORS[state.voters.length % VOTER_COLORS.length];
+  state.voters.push({id:'v'+Date.now(), name, color});
+  input.value = '';
+  saveState();
+  renderVoters();
+  renderAllDays();
+}
+
+/* ============ HORARIOS ============ */
+document.querySelectorAll('.day-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.day-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.day-panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('day-'+t.dataset.day).classList.add('active');
+  });
+});
+
+const PX_PER_MIN = 2.5; // altura de cada minuto en la grid
+function renderDay(dayKey){
+  const day = SCHEDULE[dayKey];
+  const totalMin = day.endMin - day.startMin;
+  const gridHeight = totalMin * PX_PER_MIN;
+
+  // Construir marcadores de hora (cada hora entera)
+  let timeMarkers = '';
+  for(let m = day.startMin; m <= day.endMin; m += 60){
+    const hour = Math.floor(m/60) % 24;
+    const top = (m - day.startMin) * PX_PER_MIN;
+    timeMarkers += `<div class="tt-time" style="position:absolute;top:${top}px;right:0;width:44px;text-align:right;padding-right:6px"><span>${String(hour).padStart(2,'0')}h</span></div>`;
+  }
+
+  // Construir artistas por escenario
+  const stageColMap = {w:0, p:1, g:2, u:3};
+  const stageColumns = ['','','',''];
+  ['w','p','g','u'].forEach(stg=>{
+    const items = day.artists.filter(a=>a.stage===stg);
+    let inner = '';
+    items.forEach(a=>{
+      const top = (toMin(a.start) - day.startMin) * PX_PER_MIN;
+      const height = (toMin(a.end) - toMin(a.start)) * PX_PER_MIN - 2;
+      const key = artistKey(dayKey, a);
+      const votes = state.votes[key] || {};
+      const loves = Object.values(votes).filter(v=>v==='love').length;
+      const heartsStr = loves>0 ? '❤'.repeat(Math.min(loves,3)) : '';
+      inner += `
+        <div class="artist st-${stg}" style="top:${top}px;height:${height}px"
+             data-day="${dayKey}" data-artist="${encodeURIComponent(a.name)}" data-start="${a.start}">
+          <div class="name">${a.name}</div>
+          <div class="time">${a.start}–${a.end}</div>
+          ${heartsStr ? `<div class="votes">${heartsStr}</div>` : ''}
+        </div>
+      `;
+    });
+    stageColumns[stageColMap[stg]] = inner;
+  });
+
+  const panel = document.getElementById('day-'+dayKey);
+  panel.innerHTML = `
+    <div class="timetable" style="grid-template-rows:auto 1fr">
+      <div class="tt-header">Hora</div>
+      <div class="tt-header tt-stage-w">Winamax</div>
+      <div class="tt-header tt-stage-p">Pop Star</div>
+      <div class="tt-header tt-stage-g">Planeta Perreo</div>
+      <div class="tt-header tt-stage-u">Urban Rave</div>
+
+      <div style="position:relative;height:${gridHeight}px;background:var(--panel)">${timeMarkers}</div>
+      <div style="position:relative;height:${gridHeight}px;background:var(--panel)">${stageColumns[0]}</div>
+      <div style="position:relative;height:${gridHeight}px;background:var(--panel)">${stageColumns[1]}</div>
+      <div style="position:relative;height:${gridHeight}px;background:var(--panel)">${stageColumns[2]}</div>
+      <div style="position:relative;height:${gridHeight}px;background:var(--panel)">${stageColumns[3]}</div>
+    </div>
+  `;
+
+  panel.querySelectorAll('.artist').forEach(el=>{
+    el.addEventListener('click',()=>{
+      openVoteModal(el.dataset.day, decodeURIComponent(el.dataset.artist), el.dataset.start);
+    });
+  });
+}
+
+function renderAllDays(){
+  renderDay('jueves');
+  renderDay('viernes');
+  renderDay('sabado');
+}
+
+/* ============ MODAL VOTO ============ */
+const modal = document.getElementById('voteModal');
+document.getElementById('closeModal').addEventListener('click',()=>modal.classList.remove('active'));
+modal.addEventListener('click',e=>{ if(e.target===modal) modal.classList.remove('active'); });
+
+function openVoteModal(dayKey, artistName, start){
+  const day = SCHEDULE[dayKey];
+  const a = day.artists.find(x=>x.name===artistName && x.start===start);
+  if(!a) return;
+  const stage = STAGE_INFO[a.stage];
+  const key = artistKey(dayKey, a);
+  const votes = state.votes[key] || {};
+
+  document.getElementById('modalArtist').textContent = a.name;
+  document.getElementById('modalMeta').innerHTML = `
+    <span style="display:inline-block;padding:2px 8px;border-radius:4px;background:${stage.color};color:#0b0a1a;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-right:8px">${stage.name}</span>
+    ${day.label} · ${a.start}–${a.end}
+  `;
+
+  const rowsC = document.getElementById('voteRows');
+  if(state.voters.length===0){
+    rowsC.innerHTML = '<p style="color:var(--muted);padding:20px 0;text-align:center">Añade personas en la pestaña <strong style="color:var(--text)">Votación</strong> primero.</p>';
+    return;
+  }
+  rowsC.innerHTML = state.voters.map(v=>{
+    const vote = votes[v.id];
+    return `
+      <div class="vote-row">
+        <div class="who"><span class="dot" style="background:${v.color}"></span>${v.name.replace(/</g,'&lt;')}</div>
+        <div class="vote-btns">
+          <button class="vote-btn love ${vote==='love'?'selected':''}" data-voter="${v.id}" data-vote="love">❤️</button>
+          <button class="vote-btn like ${vote==='like'?'selected':''}" data-voter="${v.id}" data-vote="like">👀</button>
+          <button class="vote-btn pass ${vote==='pass'?'selected':''}" data-voter="${v.id}" data-vote="pass">😐</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  rowsC.querySelectorAll('.vote-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(!state.votes[key]) state.votes[key] = {};
+      const voter = btn.dataset.voter;
+      const v = btn.dataset.vote;
+      if(state.votes[key][voter]===v){
+        delete state.votes[key][voter]; // toggle off
+      } else {
+        state.votes[key][voter] = v;
+      }
+      saveState();
+      openVoteModal(dayKey, artistName, start); // re-render
+      renderDay(dayKey); // actualizar corazoncitos
+    });
+  });
+
+  modal.classList.add('active');
+}
+
+/* ============ RESULTADOS ============ */
+document.getElementById('filterDay').addEventListener('change', renderResults);
+document.getElementById('filterSort').addEventListener('change', renderResults);
+
+function renderResults(){
+  const c = document.getElementById('resultsContainer');
+  const filterDay = document.getElementById('filterDay').value;
+  const sortBy = document.getElementById('filterSort').value;
+
+  if(state.voters.length===0){
+    c.innerHTML = '<div class="empty-state"><strong>Sin votantes aún</strong>Añade personas y votad artistas para ver el ranking.</div>';
+    return;
+  }
+
+  // Recoger todos los artistas con puntuación
+  const all = [];
+  Object.keys(SCHEDULE).forEach(dayKey=>{
+    if(filterDay!=='all' && filterDay!==dayKey) return;
+    SCHEDULE[dayKey].artists.forEach(a=>{
+      const key = artistKey(dayKey, a);
+      const votes = state.votes[key] || {};
+      let score = 0;
+      const loveVoters = [], likeVoters = [];
+      state.voters.forEach(v=>{
+        const val = votes[v.id];
+        if(val==='love'){ score+=3; loveVoters.push(v); }
+        else if(val==='like'){ score+=1; likeVoters.push(v); }
+      });
+      if(score>0){
+        all.push({dayKey, artist:a, score, loveVoters, likeVoters});
+      }
+    });
+  });
+
+  if(all.length===0){
+    c.innerHTML = '<div class="empty-state"><strong>Aún no hay votos</strong>Ve a "Horarios", toca un artista y marca preferencias.</div>';
+    return;
+  }
+
+  // Ordenar
+  if(sortBy==='score'){
+    all.sort((x,y)=> y.score - x.score || toMin(x.artist.start) - toMin(y.artist.start));
+  } else {
+    all.sort((x,y)=>{
+      if(x.dayKey!==y.dayKey) return ['jueves','viernes','sabado'].indexOf(x.dayKey) - ['jueves','viernes','sabado'].indexOf(y.dayKey);
+      return toMin(x.artist.start) - toMin(y.artist.start);
+    });
+  }
+
+  // Detectar solapes entre artistas votados
+  const conflictMap = {};
+  all.forEach((x,i)=>{
+    all.forEach((y,j)=>{
+      if(i>=j) return;
+      if(x.dayKey!==y.dayKey) return;
+      if(overlaps(x.artist, y.artist)){
+        conflictMap[i] = conflictMap[i] || [];
+        conflictMap[j] = conflictMap[j] || [];
+        conflictMap[i].push(y.artist.name);
+        conflictMap[j].push(x.artist.name);
+      }
+    });
+  });
+
+  const dayLabel = {jueves:'Jue 16', viernes:'Vie 17', sabado:'Sáb 18'};
+
+  c.innerHTML = all.map((item, i)=>{
+    const stage = STAGE_INFO[item.artist.stage];
+    const conflicts = conflictMap[i];
+    return `
+      <div class="result-row ${conflicts?'conflict':''}">
+        <div>
+          <div class="stage-tag" style="background:${stage.color};color:${item.artist.stage==='p'?'#1a0f00':'#fff'}">${stage.name}</div>
+        </div>
+        <div class="info">
+          <div class="name">${item.artist.name}</div>
+          <div class="time">${dayLabel[item.dayKey]} · ${item.artist.start}–${item.artist.end}</div>
+          ${conflicts ? `<div class="conflict-note">⚠ Se solapa con: ${conflicts.join(', ')}</div>` : ''}
+        </div>
+        <div class="score">
+          <div class="score-num">${item.score} pts</div>
+          <div class="voters-mini">
+            ${item.loveVoters.map(v=>`<div class="voter-dot love" style="background:${v.color}" title="${v.name} ❤️">${v.name[0].toUpperCase()}</div>`).join('')}
+            ${item.likeVoters.map(v=>`<div class="voter-dot" style="background:${v.color};opacity:.5" title="${v.name} 👀">${v.name[0].toUpperCase()}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ============ INIT ============ */
+renderMeals();
+renderVoters();
+renderAllDays();
+</script>
+</body>
+</html>

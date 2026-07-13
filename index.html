@@ -481,6 +481,11 @@ if (!firebaseConfig.projectId) {
   throw new Error('Firebase config missing');
 }
 
+/* ============ FIREBASE INIT ============ */
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const docRef = doc(db, 'planners', DOC_ID);
+
 // Comprobar contraseña
 const AUTH_KEY = 'boombastic_auth';
 if (localStorage.getItem(AUTH_KEY) === PASSWORD) {
@@ -622,11 +627,6 @@ const SLOT_PLACEHOLDER = {
   lunch:'Ej: sidrería en Llanera, picnic…',
   dinner:'Ej: antes del festival, sitio con Miguel…'
 };
-
-/* ============ FIREBASE INIT ============ */
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const docRef = doc(db, 'planners', DOC_ID);
 
 /* ============ ESTADO ============ */
 let state = { meals: {}, voters: [], votes: {} };

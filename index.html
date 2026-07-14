@@ -285,6 +285,93 @@
   .pwd-error{color:var(--danger);font-size:13px;margin-top:10px;display:none;font-weight:600}
   .pwd-error.show{display:block}
 
+  /* Countdown */
+  .countdown-card{background:linear-gradient(135deg,rgba(176,116,216,.15),rgba(0,229,199,.08));border:1px solid var(--border);text-align:center}
+  .countdown-header{color:var(--muted);font-size:11px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:14px}
+  .countdown-timer{display:flex;justify-content:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+  .countdown-block{background:rgba(11,10,26,.5);border:1px solid var(--border);border-radius:10px;padding:10px 18px;min-width:82px}
+  .countdown-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,7vw,3.2rem);line-height:1;letter-spacing:.02em;color:var(--text)}
+  .countdown-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .countdown-target{color:var(--muted);font-size:13px}
+  .countdown-target strong{color:var(--accent)}
+  .countdown-live{background:linear-gradient(135deg,rgba(231,68,59,.15),rgba(240,160,32,.12))}
+  .countdown-live .countdown-num{color:var(--stage-popstar)}
+
+  /* Weather in day cards */
+  .day-pill .weather{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed rgba(46,41,96,.6)}
+  .day-pill .weather-icon{font-size:16px;line-height:1}
+  .day-pill .weather-temp{color:var(--text);font-weight:600}
+  .day-pill .weather-rain{color:#5ab8ff}
+  .day-pill .weather-empty{color:#5a537f;font-style:italic}
+
+  /* Shopping list */
+  .shopping-input{display:flex;gap:8px;margin-bottom:14px}
+  .shopping-input input{
+    flex:1;background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    padding:10px 14px;border-radius:10px;font-family:inherit;font-size:14px;outline:none;
+  }
+  .shopping-input input:focus{border-color:var(--accent)}
+  .shopping-input button{
+    background:var(--accent);border:none;color:#0b0a1a;
+    padding:10px 18px;border-radius:10px;font-family:inherit;font-weight:700;
+    font-size:13px;cursor:pointer;letter-spacing:.05em;
+  }
+  .shopping-quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;align-items:center}
+  .shopping-quick-lbl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+  .quick-add{
+    background:var(--panel-2);border:1px solid var(--border);color:var(--muted);
+    padding:5px 11px;border-radius:14px;font-family:inherit;font-size:12px;cursor:pointer;
+    transition:all .15s;
+  }
+  .quick-add:hover{color:var(--text);border-color:var(--accent)}
+  .quick-add.added{opacity:.4;pointer-events:none}
+  .shopping-progress{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;margin-bottom:12px;font-size:13px;color:var(--muted)}
+  .shopping-progress-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+  .shopping-progress-fill{height:100%;background:var(--accent);transition:width .3s;border-radius:3px}
+  .shopping-progress-count{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--accent);letter-spacing:.05em}
+  .shopping-section-lbl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+  .shopping-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 14px;background:var(--panel-2);border:1px solid var(--border);
+    border-radius:10px;margin-bottom:6px;transition:all .15s;
+  }
+  .shopping-item label{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;font-size:14px}
+  .shopping-item input[type="checkbox"]{
+    appearance:none;-webkit-appearance:none;width:20px;height:20px;
+    border:2px solid var(--border);border-radius:5px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    transition:all .15s;background:transparent;
+  }
+  .shopping-item input[type="checkbox"]:checked{background:var(--accent);border-color:var(--accent)}
+  .shopping-item input[type="checkbox"]:checked::after{content:'✓';color:#0b0a1a;font-weight:700;font-size:14px}
+  .shopping-item.done{opacity:.55}
+  .shopping-item.done label span{text-decoration:line-through;color:var(--muted)}
+  .shopping-remove{
+    background:none;border:none;color:var(--muted);cursor:pointer;
+    font-size:18px;padding:4px 8px;line-height:1;border-radius:6px;
+  }
+  .shopping-remove:hover{color:var(--danger);background:rgba(255,86,115,.1)}
+  .shopping-added-by{font-size:10px;color:var(--muted);padding:2px 6px;border-radius:4px;background:var(--panel);white-space:nowrap}
+
+  /* Info block (alojamiento, punto encuentro) */
+  .info-block{margin-bottom:22px}
+  .info-block:last-child{margin-bottom:0}
+  .info-label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:8px;font-weight:600}
+  .info-block textarea{
+    width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    padding:10px 14px;border-radius:10px;font-family:inherit;font-size:14px;
+    outline:none;resize:vertical;min-height:60px;line-height:1.4;
+  }
+  .info-block textarea:focus{border-color:var(--accent)}
+  .info-maps-btn{
+    margin-top:10px;background:var(--panel-2);border:1px solid var(--accent);color:var(--accent);
+    padding:8px 16px;border-radius:20px;font-family:inherit;font-size:13px;font-weight:600;
+    cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;
+  }
+  .info-maps-btn:not(:disabled):hover{background:rgba(0,229,199,.12)}
+  .info-maps-btn:disabled{opacity:.35;cursor:not-allowed;border-color:var(--border);color:var(--muted)}
+  .info-hint{color:var(--muted);font-size:12px;margin-top:8px;font-style:italic}
+
   @media (max-width:640px){
     .container{padding:16px 12px 60px}
     .tab{padding:10px 12px;font-size:12px}
@@ -335,6 +422,7 @@
   <nav class="tabs" id="mainTabs">
     <button class="tab active" data-tab="viaje">El viaje</button>
     <button class="tab" data-tab="comidas">Comidas</button>
+    <button class="tab" data-tab="compras">Compras</button>
     <button class="tab" data-tab="horarios">Horarios</button>
     <button class="tab" data-tab="votacion">Votación</button>
     <button class="tab" data-tab="coincidencias">Coincidencias</button>
@@ -342,17 +430,80 @@
 
   <!-- VIAJE -->
   <section class="tab-content active" id="tab-viaje">
+    <div class="card countdown-card" id="countdownCard">
+      <div class="countdown-header" id="countdownHeader">Faltan hasta que abra el festival</div>
+      <div class="countdown-timer" id="countdownTimer">
+        <div class="countdown-block"><div class="countdown-num" id="cdDays">—</div><div class="countdown-lbl">Días</div></div>
+        <div class="countdown-block"><div class="countdown-num" id="cdHours">—</div><div class="countdown-lbl">Horas</div></div>
+        <div class="countdown-block"><div class="countdown-num" id="cdMins">—</div><div class="countdown-lbl">Min</div></div>
+      </div>
+      <div class="countdown-target">Apertura de puertas · <strong>Jueves 16 · 17:30</strong></div>
+    </div>
     <div class="card">
       <h2>Resumen del viaje</h2>
       <p style="color:var(--muted);margin-bottom:8px">Del miércoles 15 al domingo 19 de julio de 2026. Festival en Llanera (Asturias), producido por Boombastic Company. Apertura de puertas 17:30. Cierre 06:00.</p>
       <div class="trip-grid" id="tripGrid"></div>
     </div>
     <div class="card">
+      <h2>Coordinación</h2>
+      <div class="info-block">
+        <label class="info-label">🏠 Alojamiento</label>
+        <textarea id="infoAccommodation" placeholder="Pega una dirección o un link de Google Maps…" rows="2"></textarea>
+        <button class="info-maps-btn" id="mapsBtn" disabled>📍 Abrir en Maps</button>
+      </div>
+      <div class="info-block">
+        <label class="info-label">🎯 Punto de encuentro</label>
+        <textarea id="infoMeetingPoint" placeholder="Ej: barra del stage Winamax, entrada principal, en el coche…" rows="2"></textarea>
+        <p class="info-hint">Por si nos separamos en el festival.</p>
+      </div>
+      <div class="info-block">
+        <label class="info-label">📸 Álbum de fotos compartido</label>
+        <textarea id="infoAlbum" placeholder="Pega aquí el link del álbum compartido de Google Photos, iCloud…" rows="2"></textarea>
+        <button class="info-maps-btn" id="albumBtn" disabled>📸 Abrir álbum</button>
+        <p class="info-hint">Cread un álbum compartido en Google Photos o iCloud, pegad el link aquí, y desde ahí subid las fotos del viaje.</p>
+      </div>
+    </div>
+    <div class="card">
       <h3>Cómo funciona</h3>
       <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Sincronizado:</strong> el mismo estado en todos los móviles. Un votito, todos lo ven.</p>
       <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Identifícate:</strong> pulsa el botón "¿Quién eres?" arriba para elegir tu nombre. Solo se guarda en tu móvil.</p>
       <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Añadir a alguien:</strong> ve a "Votación" y añádete si no estás. Los demás te verán al instante.</p>
-      <p style="color:var(--muted);font-size:14px"><strong style="color:var(--text)">Votar:</strong> en "Horarios" toca un artista → marca tu preferencia. Verás también las de los demás.</p>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:6px"><strong style="color:var(--text)">Votar:</strong> en "Horarios" toca un artista → marca tu preferencia. Verás también las de los demás.</p>
+      <p style="color:var(--muted);font-size:14px"><strong style="color:var(--text)">Compras:</strong> lista compartida con lo que hay que llevar o comprar. Marca lo que ya tengáis.</p>
+    </div>
+  </section>
+
+  <!-- COMPRAS -->
+  <section class="tab-content" id="tab-compras">
+    <div class="card">
+      <h2>Lista de compras y equipaje</h2>
+      <p style="color:var(--muted);margin-bottom:16px;font-size:14px">Lo que hay que llevar o comprar. Todos podéis añadir y marcar. Se sincroniza en tiempo real.</p>
+
+      <div class="shopping-input">
+        <input type="text" id="newShoppingItem" placeholder="Ej: protector solar, cargador, agua…" maxlength="60">
+        <button id="addShoppingBtn">Añadir</button>
+      </div>
+
+      <div class="shopping-quick">
+        <span class="shopping-quick-lbl">Rápido:</span>
+        <button class="quick-add" data-item="Protector solar">☀️ Protector solar</button>
+        <button class="quick-add" data-item="Efectivo">💶 Efectivo</button>
+        <button class="quick-add" data-item="Cargador portátil">🔋 Cargador portátil</button>
+        <button class="quick-add" data-item="Ibuprofeno">💊 Ibuprofeno</button>
+        <button class="quick-add" data-item="Agua">💧 Agua</button>
+        <button class="quick-add" data-item="Tapones oídos">👂 Tapones</button>
+        <button class="quick-add" data-item="Gafas de sol">🕶️ Gafas de sol</button>
+        <button class="quick-add" data-item="Riñonera">🎒 Riñonera</button>
+        <button class="quick-add" data-item="DNI">🪪 DNI</button>
+        <button class="quick-add" data-item="Entradas">🎫 Entradas</button>
+      </div>
+
+      <div class="shopping-progress" id="shoppingProgress" style="display:none">
+        <div class="shopping-progress-bar"><div class="shopping-progress-fill" id="shoppingProgressFill" style="width:0%"></div></div>
+        <div class="shopping-progress-count" id="shoppingProgressCount">0 / 0</div>
+      </div>
+
+      <div id="shoppingList"></div>
     </div>
   </section>
 
@@ -621,11 +772,13 @@ const SLOT_PLACEHOLDER = {
 };
 
 /* ============ ESTADO ============ */
-let state = { meals: {}, voters: [], votes: {} };
+let state = { meals: {}, voters: [], votes: {}, shopping: [], info: {} };
 let isReady = false;
 let currentUserId = localStorage.getItem('boombastic_currentUser') || null;
 let saveTimeout = null;
 let mealsBuilt = false;
+let infoBuilt = false;
+let weatherData = null;
 
 const syncDot = document.getElementById('syncDot');
 const syncText = document.getElementById('syncText');
@@ -641,13 +794,18 @@ function startSync(){
   onSnapshot(docRef, snap => {
     if (snap.exists()) {
       const d = snap.data();
-      state = { meals: d.meals || {}, voters: d.voters || [], votes: d.votes || {} };
+      state = {
+        meals: d.meals || {},
+        voters: d.voters || [],
+        votes: d.votes || {},
+        shopping: d.shopping || [],
+        info: d.info || {}
+      };
       isReady = true;
       setSyncStatus('online');
       applyRemoteState();
     } else {
-      // Documento no existe, crearlo vacío
-      setDoc(docRef, { meals: {}, voters: [], votes: {} }).catch(e => console.error(e));
+      setDoc(docRef, { meals: {}, voters: [], votes: {}, shopping: [], info: {} }).catch(e => console.error(e));
     }
   }, err => {
     console.error('Firestore error:', err);
@@ -697,12 +855,316 @@ document.querySelectorAll('#mainTabs .tab').forEach(t=>{
 /* ============ APLICAR ESTADO REMOTO ============ */
 function applyRemoteState(){
   syncMealsUI();
+  syncInfoUI();
   renderVoters();
   renderAllDays();
   renderIdentityPill();
   renderResults();
+  renderShopping();
   renderTripOverview();
 }
+
+/* ============ INFO (alojamiento, punto encuentro, álbum) ============ */
+function buildInfoUI(){
+  const accEl = document.getElementById('infoAccommodation');
+  const meetEl = document.getElementById('infoMeetingPoint');
+  const albumEl = document.getElementById('infoAlbum');
+  const mapsBtn = document.getElementById('mapsBtn');
+  const albumBtn = document.getElementById('albumBtn');
+
+  accEl.addEventListener('input', ()=>{
+    if (!state.info) state.info = {};
+    state.info.accommodation = accEl.value;
+    saveState();
+    updateInfoBtns();
+  });
+  meetEl.addEventListener('input', ()=>{
+    if (!state.info) state.info = {};
+    state.info.meetingPoint = meetEl.value;
+    saveState();
+  });
+  albumEl.addEventListener('input', ()=>{
+    if (!state.info) state.info = {};
+    state.info.album = albumEl.value;
+    saveState();
+    updateInfoBtns();
+  });
+
+  mapsBtn.addEventListener('click', ()=>{
+    const val = accEl.value.trim();
+    if (!val) return;
+    // Si es una URL, abrir directamente. Si no, buscar en Google Maps.
+    let url;
+    if (/^https?:\/\//i.test(val)){
+      url = val;
+    } else {
+      url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(val);
+    }
+    window.open(url, '_blank', 'noopener');
+  });
+
+  albumBtn.addEventListener('click', ()=>{
+    const val = albumEl.value.trim();
+    if (!val) return;
+    // Solo permitir abrir si es URL válida
+    if (/^https?:\/\//i.test(val)){
+      window.open(val, '_blank', 'noopener');
+    } else {
+      alert('El álbum tiene que ser un link (que empiece por https://).');
+    }
+  });
+
+  updateInfoBtns();
+  infoBuilt = true;
+}
+
+function updateInfoBtns(){
+  const accEl = document.getElementById('infoAccommodation');
+  const albumEl = document.getElementById('infoAlbum');
+  const mapsBtn = document.getElementById('mapsBtn');
+  const albumBtn = document.getElementById('albumBtn');
+  if (!accEl || !mapsBtn) return;
+  mapsBtn.disabled = accEl.value.trim().length === 0;
+  // El botón del álbum solo se activa si hay algo que parece URL
+  const albumVal = albumEl.value.trim();
+  albumBtn.disabled = !(/^https?:\/\//i.test(albumVal));
+}
+
+function syncInfoUI(){
+  if (!infoBuilt) buildInfoUI();
+  const accEl = document.getElementById('infoAccommodation');
+  const meetEl = document.getElementById('infoMeetingPoint');
+  const albumEl = document.getElementById('infoAlbum');
+  const info = state.info || {};
+  if (document.activeElement !== accEl && accEl.value !== (info.accommodation || '')){
+    accEl.value = info.accommodation || '';
+  }
+  if (document.activeElement !== meetEl && meetEl.value !== (info.meetingPoint || '')){
+    meetEl.value = info.meetingPoint || '';
+  }
+  if (document.activeElement !== albumEl && albumEl.value !== (info.album || '')){
+    albumEl.value = info.album || '';
+  }
+  updateInfoBtns();
+}
+
+/* ============ TIEMPO (Open-Meteo, sin API key) ============ */
+const WEATHER_CACHE_KEY = 'boombastic_weather_v1';
+const WEATHER_CACHE_TTL = 3 * 60 * 60 * 1000; // 3 horas
+
+async function loadWeather(){
+  // Intentar cache primero
+  try {
+    const cached = localStorage.getItem(WEATHER_CACHE_KEY);
+    if (cached) {
+      const {data, ts} = JSON.parse(cached);
+      if (Date.now() - ts < WEATHER_CACHE_TTL) {
+        weatherData = data;
+        renderTripOverview();
+        return;
+      }
+    }
+  } catch(e){}
+
+  // Llanera, Asturias
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=43.42&longitude=-5.87&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=Europe%2FMadrid&start_date=2026-07-15&end_date=2026-07-19';
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('weather fetch failed');
+    const data = await res.json();
+    weatherData = data.daily;
+    localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify({data: weatherData, ts: Date.now()}));
+    renderTripOverview();
+  } catch(e){
+    console.warn('No se pudo cargar el tiempo:', e);
+  }
+}
+
+function weatherIcon(code){
+  if (code === 0) return '☀️';
+  if (code <= 2) return '🌤️';
+  if (code === 3) return '☁️';
+  if (code >= 45 && code <= 48) return '🌫️';
+  if (code >= 51 && code <= 57) return '🌦️';
+  if (code >= 61 && code <= 67) return '🌧️';
+  if (code >= 71 && code <= 77) return '❄️';
+  if (code >= 80 && code <= 82) return '🌦️';
+  if (code >= 85 && code <= 86) return '🌨️';
+  if (code >= 95) return '⛈️';
+  return '🌤️';
+}
+
+function weatherForDate(dateStr){
+  if (!weatherData || !weatherData.time) return null;
+  const idx = weatherData.time.indexOf(dateStr);
+  if (idx === -1) return null;
+  return {
+    icon: weatherIcon(weatherData.weather_code[idx]),
+    max: Math.round(weatherData.temperature_2m_max[idx]),
+    min: Math.round(weatherData.temperature_2m_min[idx]),
+    rain: weatherData.precipitation_probability_max[idx] || 0,
+  };
+}
+
+/* ============ COUNTDOWN ============ */
+const FESTIVAL_START = new Date('2026-07-16T17:30:00+02:00');
+const FESTIVAL_END = new Date('2026-07-19T06:00:00+02:00');
+
+function updateCountdown(){
+  const now = new Date();
+  const card = document.getElementById('countdownCard');
+  const header = document.getElementById('countdownHeader');
+  const target = document.querySelector('.countdown-target');
+  const daysEl = document.getElementById('cdDays');
+  const hoursEl = document.getElementById('cdHours');
+  const minsEl = document.getElementById('cdMins');
+  if (!daysEl) return;
+
+  if (now < FESTIVAL_START){
+    // Antes del festival
+    card.classList.remove('countdown-live');
+    header.textContent = 'Faltan hasta que abra el festival';
+    target.innerHTML = 'Apertura de puertas · <strong>Jueves 16 · 17:30</strong>';
+    const diff = FESTIVAL_START - now;
+    daysEl.textContent = Math.floor(diff / (1000*60*60*24));
+    hoursEl.textContent = Math.floor((diff / (1000*60*60)) % 24);
+    minsEl.textContent = Math.floor((diff / (1000*60)) % 60);
+  } else if (now < FESTIVAL_END){
+    // Durante el festival
+    card.classList.add('countdown-live');
+    header.textContent = '🎉 El festival está en marcha';
+    target.innerHTML = 'Cierre final · <strong>Domingo 19 · 06:00</strong>';
+    const diff = FESTIVAL_END - now;
+    daysEl.textContent = Math.floor(diff / (1000*60*60*24));
+    hoursEl.textContent = Math.floor((diff / (1000*60*60)) % 24);
+    minsEl.textContent = Math.floor((diff / (1000*60)) % 60);
+  } else {
+    // Después
+    card.classList.remove('countdown-live');
+    header.textContent = 'El festival ha terminado';
+    target.innerHTML = 'Esperamos que fuera bestial 💜';
+    daysEl.textContent = '—';
+    hoursEl.textContent = '—';
+    minsEl.textContent = '—';
+  }
+}
+
+/* ============ LISTA DE COMPRAS ============ */
+function renderShopping(){
+  const list = document.getElementById('shoppingList');
+  const progress = document.getElementById('shoppingProgress');
+  const fill = document.getElementById('shoppingProgressFill');
+  const count = document.getElementById('shoppingProgressCount');
+  if (!list) return;
+
+  const items = state.shopping || [];
+  const total = items.length;
+  const done = items.filter(i=>i.done).length;
+
+  // Progreso
+  if (total > 0){
+    progress.style.display = 'flex';
+    fill.style.width = Math.round((done/total)*100) + '%';
+    count.textContent = `${done} / ${total}`;
+  } else {
+    progress.style.display = 'none';
+  }
+
+  // Marcar quick-adds ya añadidos
+  document.querySelectorAll('.quick-add').forEach(btn=>{
+    const already = items.some(i => i.text.toLowerCase() === btn.dataset.item.toLowerCase());
+    btn.classList.toggle('added', already);
+  });
+
+  if (items.length === 0){
+    list.innerHTML = '<div class="empty-state"><strong>Lista vacía</strong>Añade lo primero arriba o usa los botones rápidos.</div>';
+    return;
+  }
+
+  // Ordenar: no hechos primero, luego hechos
+  const pending = items.filter(i=>!i.done);
+  const doneItems = items.filter(i=>i.done);
+
+  let html = '';
+  if (pending.length > 0){
+    html += pending.map(renderShoppingItem).join('');
+  }
+  if (doneItems.length > 0){
+    html += `<div class="shopping-section-lbl">Ya lo tenemos (${doneItems.length})</div>`;
+    html += doneItems.map(renderShoppingItem).join('');
+  }
+  list.innerHTML = html;
+
+  // Handlers
+  list.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener('change', ()=>toggleShoppingItem(cb.dataset.id));
+  });
+  list.querySelectorAll('.shopping-remove').forEach(btn=>{
+    btn.addEventListener('click', ()=>removeShoppingItem(btn.dataset.id));
+  });
+}
+
+function renderShoppingItem(item){
+  const addedBy = state.voters.find(v=>v.id===item.addedBy);
+  return `
+    <div class="shopping-item ${item.done?'done':''}">
+      <label>
+        <input type="checkbox" data-id="${item.id}" ${item.done?'checked':''}>
+        <span>${esc(item.text)}</span>
+      </label>
+      ${addedBy ? `<span class="shopping-added-by" style="color:${addedBy.color}">+${esc(addedBy.name)}</span>` : ''}
+      <button class="shopping-remove" data-id="${item.id}" title="Eliminar">×</button>
+    </div>
+  `;
+}
+
+function addShoppingItem(text){
+  const clean = text.trim();
+  if (!clean) return;
+  // Evitar duplicados
+  if (state.shopping.some(i => i.text.toLowerCase() === clean.toLowerCase())){
+    return;
+  }
+  state.shopping.push({
+    id: 's' + Date.now() + Math.floor(Math.random()*1000),
+    text: clean,
+    done: false,
+    addedBy: currentUserId || null,
+  });
+  saveState();
+}
+
+function toggleShoppingItem(id){
+  const item = state.shopping.find(i=>i.id===id);
+  if (!item) return;
+  item.done = !item.done;
+  saveState();
+}
+
+function removeShoppingItem(id){
+  state.shopping = state.shopping.filter(i=>i.id!==id);
+  saveState();
+}
+
+document.getElementById('addShoppingBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('newShoppingItem');
+  addShoppingItem(input.value);
+  input.value = '';
+  input.focus();
+});
+document.getElementById('newShoppingItem').addEventListener('keydown', e=>{
+  if (e.key === 'Enter'){
+    addShoppingItem(e.target.value);
+    e.target.value = '';
+  }
+});
+document.querySelectorAll('.quick-add').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if (!btn.classList.contains('added')){
+      addShoppingItem(btn.dataset.item);
+    }
+  });
+});
 
 /* ============ RESUMEN DEL VIAJE (dinámico) ============ */
 function renderTripOverview(){
@@ -710,17 +1172,27 @@ function renderTripOverview(){
   if (!grid) return;
 
   const days = [
-    {date:'Mié 15', label:'Llegada', type:'meal', slots:[{key:'2026-07-15_dinner', label:'Cena de bienvenida'}]},
-    {date:'Jue 16', label:'Día 1 · Festival', type:'festival', dayKey:'jueves'},
-    {date:'Vie 17', label:'Día 2 · Festival', type:'festival', dayKey:'viernes'},
-    {date:'Sáb 18', label:'Día 3 · Festival', type:'festival', dayKey:'sabado'},
-    {date:'Dom 19', label:'Vuelta', type:'meal', slots:[
+    {date:'Mié 15', label:'Llegada', type:'meal', dateISO:'2026-07-15', slots:[{key:'2026-07-15_dinner', label:'Cena de bienvenida'}]},
+    {date:'Jue 16', label:'Día 1 · Festival', type:'festival', dateISO:'2026-07-16', dayKey:'jueves'},
+    {date:'Vie 17', label:'Día 2 · Festival', type:'festival', dateISO:'2026-07-17', dayKey:'viernes'},
+    {date:'Sáb 18', label:'Día 3 · Festival', type:'festival', dateISO:'2026-07-18', dayKey:'sabado'},
+    {date:'Dom 19', label:'Vuelta', type:'meal', dateISO:'2026-07-19', slots:[
       {key:'2026-07-19_breakfast', label:'Desayuno'},
       {key:'2026-07-19_lunch', label:'Comida'}
     ]},
   ];
 
   grid.innerHTML = days.map(day => {
+    // Weather
+    const w = weatherForDate(day.dateISO);
+    const weatherHtml = w
+      ? `<div class="weather">
+           <span class="weather-icon">${w.icon}</span>
+           <span class="weather-temp">${w.max}° / ${w.min}°</span>
+           ${w.rain >= 30 ? `<span class="weather-rain">· 💧 ${w.rain}%</span>` : ''}
+         </div>`
+      : (weatherData === null ? '' : '<div class="weather weather-empty">Sin datos del tiempo</div>');
+
     let content = '';
 
     if (day.type === 'meal') {
@@ -734,7 +1206,6 @@ function renderTripOverview(){
         `;
       }).join('');
     } else {
-      // Festival: artistas votados ordenados por hora
       const voted = SCHEDULE[day.dayKey].artists.map(a => {
         const key = artistKey(day.dayKey, a);
         const votes = state.votes[key] || {};
@@ -750,7 +1221,6 @@ function renderTripOverview(){
       if (voted.length === 0) {
         content = '<div class="plan-empty" style="padding:8px 0">Aún sin votos · id a "Horarios" y elegid</div>';
       } else {
-        // Detectar solapes
         const conflicts = {};
         voted.forEach((x,i) => {
           voted.forEach((y,j) => {
@@ -777,6 +1247,7 @@ function renderTripOverview(){
 
     return `
       <div class="day-pill">
+        ${weatherHtml}
         <div class="date">${day.date}</div>
         <div class="day">${day.label}</div>
         <div class="plan-content">${content}</div>
@@ -1167,10 +1638,15 @@ function renderResults(){
 
 /* Init: construir UI vacía inmediatamente para que se vea algo */
 buildMealsUI();
+buildInfoUI();
 renderVoters();
 renderAllDays();
 renderIdentityPill();
+renderShopping();
 renderTripOverview();
+updateCountdown();
+setInterval(updateCountdown, 30000);
+loadWeather();
 
 /* Gate de contraseña — al final, cuando ya todo está definido */
 const AUTH_KEY = 'boombastic_auth';
